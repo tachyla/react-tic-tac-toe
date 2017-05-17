@@ -16,7 +16,7 @@ export default class Board extends React.Component {
     console.log("from the setBoard Method")
     var stateCopy = Object.assign({}, this.state);
     if(stateCopy.board[itemY][itemX] === "-"){
-      let val = this.state.playerOne ? 'x' : 'O';
+      let val = this.state.playerOne ? 'X' : 'O';
       stateCopy.board[itemY][itemX] = val;
       stateCopy.playerOne = !stateCopy.playerOne;
       this.setState(stateCopy);
