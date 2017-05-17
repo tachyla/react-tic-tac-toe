@@ -6,12 +6,13 @@ export default class Board extends React.Component {
     super(props);
     this.state = {
       playerOne: true,
+      winner: "",
       board : [["-","-","-"],
                ["-","-","-"],
                ["-","-","-"]]
     };
   }
-  
+
   setBoard(itemX, itemY) {
     console.log("from the setBoard Method")
     var stateCopy = Object.assign({}, this.state);
@@ -27,7 +28,7 @@ export default class Board extends React.Component {
   pickRandom(counter) {
    if(counter === undefined) {
      counter = 0;
-   } 
+   }
    console.log(counter);
    const choiceA = Math.floor(Math.random() * 3);
    const choiceB = Math.floor(Math.random() * 3);
@@ -47,26 +48,35 @@ export default class Board extends React.Component {
   checkWinner(p){
     let b = this.state.board;
     if((b[0][0] === p && b[0][1] === p && b[0][2] === p)||
-      (b[1][0] === p && b[1][1] === p && b[1][2] === p)||      
+      (b[1][0] === p && b[1][1] === p && b[1][2] === p)||
       (b[2][0] === p && b[2][1] === p && b[2][2] === p) ||
 
       (b[0][0] === p && b[1][0] === p && b[2][0] === p)||
-      (b[0][1] === p && b[1][1] === p && b[2][1] === p)||      
+      (b[0][1] === p && b[1][1] === p && b[2][1] === p)||
       (b[0][2] === p && b[1][2] === p && b[2][2] === p)||
 
       (b[0][0] === p && b[1][1] === p && b[2][2] === p)||
       (b[0][2] === p && b[1][1] === p && b[2][0] === p)
     ) {
-      console.log(`${p} Wins!`);
+      this.setState({winner: `${p} Wins!`});
     }else{
       console.log('no winner')
     }
   }
 
+  resetBoard(){
+    this.setState({
+      winner: "",
+      board : [["-","-","-"],
+               ["-","-","-"],
+               ["-","-","-"]]
+    })
+  }
+
   render() {
     let theBoard = this.state.board.map((itemY, Y)=> {
       return (<div key={Y} className='Row'> {itemY.map((itemX, X) =>{
-        return (<Box value={this.state.board[Y][X]} key={X} Clicked={() => 
+        return (<Box value={this.state.board[Y][X]} key={X} Clicked={() =>
                 {this.setBoard(X,Y)
                 self = this;
                  setTimeout(this.pickRandom, 1000)}
@@ -74,6 +84,6 @@ export default class Board extends React.Component {
       })
     }</div>)
     })
-  return (<div>{theBoard}</div>)
+  return (<div className="main"><div className="win_box">{this.state.winner}</div><div className="the_board">{theBoard}</div><button onClick={()=>{this.resetBoard()}} className="reset_button">Reset</button></div>)
   }
 }
