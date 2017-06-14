@@ -34,7 +34,7 @@ export default class Board extends React.Component {
    const choiceB = Math.floor(Math.random() * 3);
    console.log(self.state.board[choiceA][choiceB]);
    //choiceA selects the first array in the board array, choiceB selects the index of that array
-   if(self.state.board[choiceA][choiceB] === "-") {
+   if(self.state.board[choiceA][choiceB] === "-" && self.state.winner === "") {
      self.setBoard(choiceB, choiceA);
    }
    else{
@@ -58,8 +58,10 @@ export default class Board extends React.Component {
       (b[0][0] === p && b[1][1] === p && b[2][2] === p)||
       (b[0][2] === p && b[1][1] === p && b[2][0] === p)
     ) {
+      //check senarios that could win, have AI input O there.
       this.setState({winner: `${p} Wins!`});
-    }else{
+    }
+    else{
       console.log('no winner')
     }
   }
